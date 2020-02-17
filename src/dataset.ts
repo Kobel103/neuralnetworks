@@ -156,20 +156,21 @@ export function classifySpiralData(numSamples: number, noise: number):
 export function classifyTestData(numSamples: number, noise: number):
     Example2D[] {
   let points: Example2D[] = [];
-  let n = numSamples / 2;
+  let n = numSamples / 8;
+  let label = -1;
 
-  function genSpiral(deltaT: number, label: number) {
-    for (let i = 0; i < n; i++) {
-      let r = i / n * 5;
-      let t = 1.75 * i / n * 2 * Math.PI + deltaT;
-      let x = r * Math.sin(t) + randUniform(-1, 1) * noise;
-      let y = r * Math.cos(t) + randUniform(-1, 1) * noise;
-      points.push({x, y, label});
+  for (let i = -n; i < n; i += 0.25) {
+    if (i % 3 == 0) {
+      label *= -1;
+    }
+    
+    for (let j = -n; j < n; j += 0.25) {
+      let x = i;
+      let y = j;
+      points.push({x, y, label})
     }
   }
 
-  genSpiral(0, 1); // Positive examples.
-  genSpiral(Math.PI, -1); // Negative examples.
   return points;
 }
 
