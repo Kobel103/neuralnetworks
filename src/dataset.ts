@@ -159,12 +159,12 @@ export function classifyTestData(numSamples: number, noise: number):
   let n = numSamples / 8;
   let label = -1;
 
-  for (let i = -n; i < n; i += 0.25) {
+  for (let i = -6; i < 6; i+=0.5) {
     if (i % 3 == 0) {
       label *= -1;
     }
     
-    for (let j = -n; j < n; j += 0.25) {
+    for (let j = -6; j < 6; j+=0.5) {
       let x = i;
       let y = j;
       points.push({x, y, label})
