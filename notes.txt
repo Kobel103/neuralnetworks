@@ -1,7 +1,0 @@
-Ce qui est fait :
-Ajouter test dans datasets dans state.ts
-Ajouter classifyTestData dans dataset.ts
-Ajouter le dataset de test dans la liste du index.html (celui du dist)
-
-Ce qui est à faire :
-Modifier classifyTestData dans dataset.ts
