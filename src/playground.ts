@@ -206,6 +206,15 @@ function makeGUI() {
     parametersChanged = true;
   });
 
+  d3.select("#add-data-button").on("click", () => {
+    document.getElementById("fileid").click();
+    document.getElementById("fileid").onchange = function(event) {
+      var fileList = event.target;
+      console.log(fileList);
+    }
+    
+  });
+
   let dataThumbnails = d3.selectAll("canvas[data-dataset]");
   dataThumbnails.on("click", function() {
     let newDataset = datasets[this.dataset.dataset];
