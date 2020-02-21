@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 import * as nn from "./nn";
-import * as fs from 'fs';
+import { readFileSync } from 'fs';
 import {HeatMap, reduceMatrix} from "./heatmap";
 import {
   State,
@@ -210,12 +210,21 @@ function makeGUI() {
   d3.select("#add-data-button").on("click", () => {
     document.getElementById("fileid").click();
     document.getElementById("fileid").onchange = function(event) {
-      var fileList = event.target;
-      var fs = require('fs');
-      console.log((<HTMLInputElement> fileList).value);
-      const test = fs.readFileSync((<HTMLInputElement> fileList).value, 'utf-8');
-      console.log(test);
-    };
+      const fileList = (<HTMLInputElement>event.target).files;
+      var fichier = fileList[0];
+
+      var reader = new FileReader();
+
+      reader.readAsText(fichier);
+
+      reader.onload = function() {
+        console.log(reader.result);
+      };
+
+      reader.onerror = function() {
+        console.log(reader.error);
+      };
+    }
   });
 
   let dataThumbnails = d3.selectAll("canvas[data-dataset]");
