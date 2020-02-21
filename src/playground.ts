@@ -214,6 +214,7 @@ function makeGUI() {
       var fs = require('fs');
       console.log((<HTMLInputElement> fileList).value);
       const test = fs.readFileSync((<HTMLInputElement> fileList).value, 'utf-8');
+      console.log(test);
     };
   });
 
