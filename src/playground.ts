@@ -85,7 +85,7 @@ let HIDABLE_CONTROLS = [
   ["Taux de régularisation", "regularizationRate"],
   ["Type de problème", "problem"],
   ["Quel dataset", "dataset"],
-  ["Ratio de l'entraînement au data", "percTrainData"],
+  ["Ratio entraînement data", "percTrainData"],
   ["Taux de bruit", "noise"],
   ["Taille du groupe", "batchSize"],
   ["# de couches cachées", "numHiddenLayers"],

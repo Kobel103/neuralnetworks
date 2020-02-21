@@ -839,7 +839,7 @@ g.train circle {
 
 article {
   background: white;
-  padding: 80px 0;
+  padding: 120px 0;
   box-shadow: 0 0px 4px rgba(0, 0, 0, 0.1);
   /*border-top: 1px solid rgba(0, 0, 0, 0.08);*/
 }
@@ -919,6 +919,7 @@ footer .links a:hover {
 .hide-controls label.mdl-checkbox {
   width: 145px;
   height: 30px;
+  margin-bottom: 15px;
 }
 
 .hide-controls .mdl-checkbox__label {
@@ -938,6 +939,9 @@ footer .links a:hover {
 }
 
 /* Checkbox */
+.md1-checkbox {
+  margin-bottom: 15px;
+}
 
 .mdl-checkbox__box-outline {
   border-color: rgba(0, 0, 0, 0.5);
