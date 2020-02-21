@@ -74,21 +74,21 @@ let INPUTS: {[name: string]: InputFeature} = {
 };
 
 let HIDABLE_CONTROLS = [
-  ["Show test data", "showTestData"],
-  ["Discretize output", "discretize"],
-  ["Play button", "playButton"],
-  ["Step button", "stepButton"],
-  ["Reset button", "resetButton"],
-  ["Learning rate", "learningRate"],
+  ["Montrer le data caché", "showTestData"],
+  ["Discréditer la sortie", "discretize"],
+  ["Jouer", "playButton"],
+  ["Avancer", "stepButton"],
+  ["Réinitialiser", "resetButton"],
+  ["Taux d'apprentissage", "learningRate"],
   ["Activation", "activation"],
-  ["Regularization", "regularization"],
-  ["Regularization rate", "regularizationRate"],
-  ["Problem type", "problem"],
-  ["Which dataset", "dataset"],
-  ["Ratio train data", "percTrainData"],
-  ["Noise level", "noise"],
-  ["Batch size", "batchSize"],
-  ["# of hidden layers", "numHiddenLayers"],
+  ["Régularisation", "regularization"],
+  ["Taux de régularisation", "regularizationRate"],
+  ["Type de problème", "problem"],
+  ["Quel dataset", "dataset"],
+  ["Ratio entraînement data", "percTrainData"],
+  ["Taux de bruit", "noise"],
+  ["Taille du groupe", "batchSize"],
+  ["# de couches cachées", "numHiddenLayers"],
 ];
 
 class Player {
@@ -719,7 +719,7 @@ function addPlusMinusControl(x: number, layerIdx: number) {
 
   let suffix = state.networkShape[i] > 1 ? "s" : "";
   div.append("div").text(
-    state.networkShape[i] + " neuron" + suffix
+    state.networkShape[i] + " neurone" + suffix
   );
 }
 
@@ -967,7 +967,7 @@ function reset(onStartup=false) {
   player.pause();
 
   let suffix = state.numHiddenLayers !== 1 ? "s" : "";
-  d3.select("#layers-label").text("Hidden layer" + suffix);
+  d3.select("#layers-label").text("Couche" + suffix + " cachée" + suffix);
   d3.select("#num-layers").text(state.numHiddenLayers);
 
   // Make a simple network.

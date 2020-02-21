@@ -21,28 +21,28 @@ limitations under the License.
   <meta name="keywords" content="neural networks,machine learning,javascript">
 
   <meta property="og:type" content="article"/>
-  <meta property="og:title" content="Tensorflow — Neural Network Playground"/>
-  <meta property="og:description" content="Tinker with a real neural network right here in your browser.">
+  <meta property="og:title" content="Tensorflow - Playground Réseau Neuronal"/>
+  <meta property="og:description" content="Bidouillez ce réseau de neurone sur votre navigateur web!">
   <meta property="og:url" content="http://playground.tensorflow.org"/>
   <meta property="og:image" content="http://playground.tensorflow.org/preview.png"/>
 
   <meta name="twitter:card" value="summary_large_image">
-  <meta name="twitter:title" content="Tensorflow — Neural Network Playground">
-  <meta name="twitter:description" content="Tinker with a real neural network right here in your browser.">
+  <meta name="twitter:title" content="Tensorflow - Playground Réseau Neuronal">
+  <meta name="twitter:description" content="Bidouillez ce réseau de neurone sur votre navigateur web!">
   <meta name="twitter:url" content="http://playground.tensorflow.org">
   <meta name="twitter:image" content="http://playground.tensorflow.org/preview.png">
   <meta name="twitter:image:width" content="560">
   <meta name="twitter:image:height" content="295">
 
   <meta name="author" content="Daniel Smilkov and Shan Carter">
-  <title>A Neural Network Playground</title>
+  <title>Tensorflow - Playground Réseau Neuronal</title>
   <link rel="stylesheet" href="bundle.css" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons" rel="stylesheet" type="text/css">
   <script src="lib.js"></script>
 </head>
 <body>
   <!-- GitHub link -->
-  <a class="github-link" href="https://github.com/tensorflow/playground" title="Source on GitHub" target="_blank">
+  <a class="github-link" href="https://github.com/HexKBStone/neuralnetworks" title="Code source sur GitHub" target="_blank">
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60.5 60.5" width="60" height="60">
       <polygon class="bg" points="60.5,60.5 0,0 60.5,0 "/>
       <path class="icon" d="M43.1,5.8c-6.6,0-12,5.4-12,12c0,5.3,3.4,9.8,8.2,11.4c0.6,0.1,0.8-0.3,0.8-0.6c0-0.3,0-1,0-2c-3.3,0.7-4-1.6-4-1.6c-0.5-1.4-1.3-1.8-1.3-1.8c-1.1-0.7,0.1-0.7,0.1-0.7c1.2,0.1,1.8,1.2,1.8,1.2c1.1,1.8,2.8,1.3,3.5,1c0.1-0.8,0.4-1.3,0.8-1.6c-2.7-0.3-5.5-1.3-5.5-5.9c0-1.3,0.5-2.4,1.2-3.2c-0.1-0.3-0.5-1.5,0.1-3.2c0,0,1-0.3,3.3,1.2c1-0.3,2-0.4,3-0.4c1,0,2,0.1,3,0.4c2.3-1.6,3.3-1.2,3.3-1.2c0.7,1.7,0.2,2.9,0.1,3.2c0.8,0.8,1.2,1.9,1.2,3.2c0,4.6-2.8,5.6-5.5,5.9c0.4,0.4,0.8,1.1,0.8,2.2c0,1.6,0,2.9,0,3.3c0,0.3,0.2,0.7,0.8,0.6c4.8-1.6,8.2-6.1,8.2-11.4C55.1,11.2,49.7,5.8,43.1,5.8z"/>
@@ -50,21 +50,21 @@ limitations under the License.
   </a>
   <!-- Header -->
   <header>
-    <h1 class="l--page">Tinker With a <b>Neural Network</b> <span class="optional">Right Here </span>in Your Browser.<br>Don’t Worry, You Can’t Break It. We Promise.</h1>
+    <h1 class="l--page">Bidouillez avec ce <b>réseau de neurones</b> <span class="optional">juste ici </span>dans votre navigateur.<br>N'ayez crainte, vous ne pouvez pas le briser. Nous vous le promettons.</h1>
   </header>
 
   <!-- Top Controls -->
   <div id="top-controls">
     <div class="container l--page">
       <div class="timeline-controls">
-        <button class="mdl-button mdl-js-button mdl-button--icon ui-resetButton" id="reset-button" title="Reset the network">
+        <button class="mdl-button mdl-js-button mdl-button--icon ui-resetButton" id="reset-button" title="Réinitialiser le réseau">
           <i class="material-icons">replay</i>
         </button>
-        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored ui-playButton" id="play-pause-button" title="Run/Pause">
+        <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored ui-playButton" id="play-pause-button" title="Démarrer/Pause">
           <i class="material-icons">play_arrow</i>
           <i class="material-icons">pause</i>
         </button>
-        <button class="mdl-button mdl-js-button mdl-button--icon ui-stepButton" id="next-step-button" title="Step">
+        <button class="mdl-button mdl-js-button mdl-button--icon ui-stepButton" id="next-step-button" title="Avancer">
           <i class="material-icons">skip_next</i>
         </button>
       </div>
@@ -73,7 +73,7 @@ limitations under the License.
         <span class="value" id="iter-number"></span>
       </div>
       <div class="control ui-learningRate">
-        <label for="learningRate">Learning rate</label>
+        <label for="learningRate">Taux d'apprentissage</label>
         <div class="select">
           <select id="learningRate">
             <option value="0.00001">0.00001</option>
@@ -96,23 +96,23 @@ limitations under the License.
           <select id="activations">
             <option value="relu">ReLU</option>
             <option value="tanh">Tanh</option>
-            <option value="sigmoid">Sigmoid</option>
-            <option value="linear">Linear</option>
+            <option value="sigmoid">Sigmoïde</option>
+            <option value="linear">Linéaire</option>
           </select>
         </div>
       </div>
       <div class="control ui-regularization">
-        <label for="regularizations">Regularization</label>
+        <label for="regularizations">Régularisation</label>
         <div class="select">
           <select id="regularizations">
-            <option value="none">None</option>
+            <option value="none">Aucune</option>
             <option value="L1">L1</option>
             <option value="L2">L2</option>
           </select>
         </div>
       </div>
       <div class="control ui-regularizationRate">
-        <label for="regularRate">Regularization rate</label>
+        <label for="regularRate">Taux de régularisation</label>
         <div class="select">
           <select id="regularRate">
             <option value="0">0</option>
@@ -129,11 +129,11 @@ limitations under the License.
         </div>
       </div>
       <div class="control ui-problem">
-        <label for="problem">Problem type</label>
+        <label for="problem">Type de problème</label>
         <div class="select">
           <select id="problem">
             <option value="classification">Classification</option>
-            <option value="regression">Regression</option>
+            <option value="regression">Régression</option>
           </select>
         </div>
       </div>
@@ -149,7 +149,7 @@ limitations under the License.
         <span>Data</span>
       </h4>
       <div class="ui-dataset">
-        <p>Which dataset do you want to use?</p>
+        <p>Quel dataset voulez-vous utiliser</p>
         <div class="dataset-list">
           <div class="dataset" title="Circle">
             <canvas class="data-thumbnail" data-dataset="circle"></canvas>
@@ -174,37 +174,37 @@ limitations under the License.
           </div>
         </div>
         <input id='fileid' type='file' hidden/>
-        <input type="submit" class="basic-button" id="add-data-button" title="Add Dataset" value="add dataset" />
+        <input type="submit" class="basic-button" id="add-data-button" title="Importer un dataset" value="Importer dataset" />
       </div>
       <div>
         <div class="ui-percTrainData">
-          <label for="percTrainData">Ratio of training to test data:&nbsp;&nbsp;<span class="value">XX</span>%</label>
+          <label for="percTrainData">Ratio d'entraînement pour tester le data:&nbsp;&nbsp;<span class="value">XX</span>%</label>
           <p class="slider">
             <input class="mdl-slider mdl-js-slider" type="range" id="percTrainData" min="10" max="90" step="10">
           </p>
         </div>
         <div class="ui-noise">
-          <label for="noise">Noise:&nbsp;&nbsp;<span class="value">XX</span></label>
+          <label for="noise">Bruit:&nbsp;&nbsp;<span class="value">XX</span></label>
           <p class="slider">
             <input class="mdl-slider mdl-js-slider" type="range" id="noise" min="0" max="50" step="5">
           </p>
         </div>
         <div class="ui-batchSize">
-          <label for="batchSize">Batch size:&nbsp;&nbsp;<span class="value">XX</span></label>
+          <label for="batchSize">Taille du groupe:&nbsp;&nbsp;<span class="value">XX</span></label>
           <p class="slider">
             <input class="mdl-slider mdl-js-slider" type="range" id="batchSize" min="1" max="30" step="1">
           </p>
         </div>
           <button class="basic-button" id="data-regen-button" title="Regenerate data">
-            Regenerate
+            Regénérer
           </button>
       </div>
     </div>
 
     <!-- Features Column -->
     <div class="column features">
-      <h4>Features</h4>
-      <p>Which properties do you want to feed in?</p>
+      <h4>Paramètres</h4>
+      <p>Avec quel paramètres voulez-vous construire votre réseau de neurones?</p>
       <div id="network">
         <svg id="svg" width="510" height="450">
           <defs>
@@ -215,8 +215,8 @@ limitations under the License.
         </svg>
         <!-- Hover card -->
         <div id="hovercard">
-          <div style="font-size:10px">Click anywhere to edit.</div>
-          <div><span class="type">Weight/Bias</span> is <span class="value">0.2</span><span><input type="number"/></span>.</div>
+          <div style="font-size:10px">Cliquez où vous voulez pour commencer à éditer.</div>
+          <div><span class="type">Poids/Biais</span> est <span class="value">0.2</span><span><input type="number"/></span>.</div>
         </div>
         <div class="callout thumbnail">
           <svg viewBox="0 0 30 30">
@@ -228,7 +228,7 @@ limitations under the License.
             <path d="M12,30C5,20 2,15 12,0" marker-end="url(#arrow)">
           </svg>
           <div class="label">
-            This is the output from one <b>neuron</b>. Hover to see it larger.
+            Ceci est la sortie d'une <b>neurone</b>. Passez par dessus pour l'agrandir.
           </div>
         </div>
         <div class="callout weights">
@@ -241,7 +241,7 @@ limitations under the License.
             <path d="M12,30C5,20 2,15 12,0" marker-end="url(#arrow)">
           </svg>
           <div class="label">
-            The outputs are mixed with varying <b>weights</b>, shown by the thickness of the lines.
+            Les sorties peuvent varier avec <b>l'épaisseur</b> de chaque ligne.
           </div>
         </div>
       </div>
@@ -266,14 +266,14 @@ limitations under the License.
 
     <!-- Output Column -->
     <div class="column output">
-      <h4>Output</h4>
+      <h4>Sortie</h4>
       <div class="metrics">
         <div class="output-stats ui-percTrainData">
-          <span>Test loss</span>
+          <span>Pertes avec tests</span>
           <div class="value" id="loss-test"></div>
         </div>
         <div class="output-stats train">
-          <span>Training loss</span>
+          <span>pertes avec l'entraînement</span>
           <div class="value" id="loss-train"></div>
         </div>
         <div id="linechart"></div>
@@ -284,7 +284,7 @@ limitations under the License.
 
           <!-- Gradient color scale -->
           <div class="label" style="width:105px; margin-right: 10px">
-            Colors shows data, neuron and weight values.
+            Les couleurs montrent les valeurs possibles des points du data, des neurones et l'épaisseur d'une ligne.
           </div>
           <svg width="150" height="30" id="colormap">
             <defs>
@@ -303,11 +303,11 @@ limitations under the License.
         <div style="display:flex;">
           <label class="ui-showTestData mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="show-test-data">
             <input type="checkbox" id="show-test-data" class="mdl-checkbox__input" checked>
-            <span class="mdl-checkbox__label label">Show test data</span>
+            <span class="mdl-checkbox__label label">Montrer le data caché du test</span>
           </label>
           <label class="ui-discretize mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="discretize">
             <input type="checkbox" id="discretize" class="mdl-checkbox__input" checked>
-            <span class="mdl-checkbox__label label">Discretize output</span>
+            <span class="mdl-checkbox__label label">Discréditer la sortie</span>
           </label>
         </div>
       </div>
@@ -326,41 +326,42 @@ limitations under the License.
 
   <article id="article-text">
     <div class="l--body">
-      <h2>Um, What Is a Neural Network?</h2>
-      <p>It’s a technique for building a computer program that learns from data. It is based very loosely on how we think the human brain works. First, a collection of software “neurons” are created and connected together, allowing them to send messages to each other. Next, the network is asked to solve a problem, which it attempts to do over and over, each time strengthening the connections that lead to success and diminishing those that lead to failure. For a more detailed introduction to neural networks, Michael Nielsen’s <a href="http://neuralnetworksanddeeplearning.com/index.html">Neural Networks and Deep Learning</a> is a good place to start. For a more technical overview, try <a href="http://www.deeplearningbook.org/">Deep Learning</a> by Ian Goodfellow, Yoshua Bengio, and Aaron Courville.</p>
+      <h2>Euhh, c'est quoi un réseau neuronal?</h2>
+      <p>C’est une technique pour créer un programme informatique qui apprend depuis à partir de données. Il est basé de manière très vague sur la façon dont nous pensons que le cerveau humain fonctionne. Premièrement, une collection de «neurones» est créée et assemblée, ce qui permet aux neurones de la collection de s'envoyer des messages. Ensuite, le réseau est invité à résoudre un problème, ce qu'il tentera de faire encore et encore, à chaque fois en renforçant les connexions qui mènent au succès et en diminuant celles qui mènent à l'échec. Pour une introduction plus détaillée aux réseaux de neurones, <a href="http://neuralnetworksanddeeplearning.com/index.html">les réseaux neuronaux et l'apprentissage profond</a> de Michael Nielsen sont un bon point de départ. Pour un aperçu plus technique, essayez le <a href="http://www.deeplearningbook.org/">Deep Learning</a> par Ian Goodfellow, Yoshua Bengio et Aaron Courville.</p>
     </div>
 
     <div class="l--body">
-      <h2>This Is Cool, Can I Repurpose It?</h2>
-      <p>Please do! We’ve open sourced it on <a href="https://github.com/tensorflow/playground">GitHub</a> with the hope that it can make neural networks a little more accessible and easier to learn. You’re free to use it in any way that follows our <a href="https://github.com/tensorflow/playground/blob/master/LICENSE">Apache License</a>. And if you have any suggestions for additions or changes, please <a href="https://github.com/tensorflow/playground/issues">let us know</a>.</p>
-      <p>We’ve also provided some controls below to enable you tailor the playground to a specific topic or lesson. Just choose which features you’d like to be visible below then save <a class="hide-controls-link" href="#">this link</a>, or <a href="javascript:location.reload();">refresh</a> the page.</p>
+      <h2>C'est bien tout ça! Mais est-ce que je peux modifier ce site?</h2>
+      <p>Oui, avec plaisir! Ce site est Open-Source et est hébergé sur <a href="https://github.com/tensorflow/playground">GitHub</a> avec l'espoir que ça peut rendre les réseaux de neurones un peu plus accessible et facile à apprendre. Vous avez le droit de l'utiliser comme vous voulez en respectant notre <a href="https://github.com/tensorflow/playground/blob/master/LICENSE">License Apache</a>. Et si vous avez des changements additionnels à nous proposer, <a href="https://github.com/tensorflow/playground/issues">mettez nous au courant ici</a>.</p>
+      <p>Nous avons aussi fournis des contrôles ci-dessous pour ajuster le site à vos besoins. Choisissez quel fonctionnalités vous aimeriez voir ou cacher et sauvegardez après <a class="hide-controls-link" href="#">sur ce lien</a>, ou <a href="javascript:location.reload();">en rafraîchissant la page</a>.</p>
       <div class="hide-controls"></div>
     </div>
 
     <div class="l--body">
-      <h2>What Do All the Colors Mean?</h2>
-      <p>Orange and blue are used throughout the visualization in slightly different ways, but in general orange shows negative values while blue shows positive values.</p>
-      <p>The data points (represented by small circles) are initially colored orange or blue, which correspond to positive one and negative one.</p>
-      <p>In the hidden layers, the lines are colored by the weights of the connections between neurons. Blue shows a positive weight, which means the network is using that output of the neuron as given. An orange line shows that the network is assiging a negative weight.</p>
-      <p>In the output layer, the dots are colored orange or blue depending on their original values. The background color shows what the network is predicting for a particular area. The intensity of the color shows how confident that prediction is.</p>
+      <h2>Qu'est ce que toutes ces couleurs représentent?</h2>
+      <p>L'orange et le bleu sont les couleurs utilisés dans la visualisation de différentes façons, mais en général, l'orange montre les valeurs négatives tandis que le bleu montre les valeurs positives.</p>
+      <p>Les points du data (représentés par les petits cercles) sont initialement coloriés orange ou bleus, dont chacun correspond aux valeurs positive ou négatives.</p>
+      <p>Dans les couches cachées, les lignes sont coloriés par les épaisseurs des connexions entre les neurones. Le bleu montre une épaisseur positive, ce qui veut dire que cette connexion utilise la sortie positive de la neurone. Une ligne orange montre que cette connexion utilise la sortie négative de la neurone.</p>
+      <p>Dans la couche de sortie, les points sont coloriés en orange ou en bleu dépendament de leur valeur originelle. La couleur du fond montre ce que le réseau prédit pour un endroit en particulier. L'intensité d'une connexion montre à quel point cette prédiction est certaine.</p>
     </div>
 
     <div class="l--body">
-      <h2>What Library Are You Using?</h2>
-      <p>We wrote a tiny neural network <a href="https://github.com/tensorflow/playground/blob/master/src/nn.ts">library</a>
-      that meets the demands of this educational visualization. For real-world applications, consider the
-      <a href="https://www.tensorflow.org/">TensorFlow</a> library.
+      <h2>Quel librairie a été utilisé pour ce projet?</h2>
+      <p>Nous avons écrit une petite <a href="https://github.com/tensorflow/playground/blob/master/src/nn.ts">librairie</a> de réseaux neuronaux
+        qui peut réaliser cette visualisation éducationnelle. Pour une application en temps-réelle, considérez la librairie
+        <a href="https://www.tensorflow.org/">TensorFlow</a>.
       </p>
     </div>
 
     <div class="l--body">
-      <h2>Credits</h2>
+      <h2>Collaborations et remerciments</h2>
       <p>
-        This was created by Daniel Smilkov and Shan Carter.
-        This is a continuation of many people’s previous work — most notably Andrej Karpathy’s <a href="http://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html">convnet.js demo</a>
-        and Chris Olah’s <a href="http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">articles</a> about neural networks.
-        Many thanks also to D. Sculley for help with the original idea and to Fernanda Viégas and Martin Wattenberg and the rest of the
-        <a href="https://research.google.com/bigpicture/">Big Picture</a> and <a href="https://research.google.com/teams/brain/">Google Brain</a> teams for feedback and guidance.
+        Ce site a été créé par Daniel Smilkov et Shan Carter.
+        Ce site a été modifié et traduit par Benjamin Caron et Enrique Côté.
+        Ceci est une continuation du travail de plusieures personnes — notamment la <a href="http://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html">démo convnet.js</a> de Andrej Karpathy’s
+        et des <a href="http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/">articles à propos des réseaux neuronaux</a> de Chris Olah’s.
+        Nous remercions aussi l'aide de D. Sculley pour avoir apporté l'idée originale ainsi qu'à Fernanda Viégas, Martin Wattenberg et au reste des équipes
+        <a href="https://research.google.com/bigpicture/">Big Picture</a> et <a href="https://research.google.com/teams/brain/">Google Brain</a> pour leurs commentaires et leur orientation.
       </p>
     </div>
   </article>
@@ -395,7 +396,7 @@ limitations under the License.
         </svg>
       </a>
       <div class="links">
-        <a href="https://github.com/tensorflow/playground">Source on GitHub</a>
+        <a href="https://github.com/tensorflow/playground">Le code source originel est sur GitHub</a>
       </div>
     </div>
   </footer>
