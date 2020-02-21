@@ -14,7 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 import * as nn from "./nn";
-import { readFileSync } from 'fs';
+import * as fs from 'fs';
 import {HeatMap, reduceMatrix} from "./heatmap";
 import {
   State,
@@ -31,6 +31,8 @@ import {AppendingLineChart} from "./linechart";
 import * as d3 from 'd3';
 
 let mainWidth;
+let f = window.require("fs");
+f.writeFile("dataset.txt", "test", function(){console.log("test")});
 
 // More scrolling
 d3.select(".more button").on("click", function() {
@@ -224,6 +226,8 @@ function makeGUI() {
       reader.onerror = function() {
         console.log(reader.error);
       };
+
+      f.mkdirSync("./tmp");
     }
   });
 
