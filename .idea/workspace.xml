@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="47f5a0bf-c22d-40f7-adcc-2cb83de9a2ef" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,10 +41,22 @@
       <option name="presentableId" value="Default" />
       <updated>1582048161962</updated>
       <workItem from="1582048163498" duration="1129000" />
+      <workItem from="1582294681400" duration="601000" />
+      <workItem from="1582410366284" duration="19000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1120" y="268" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1582410375994">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1120" y="268" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040/1920.32.1680.1010@0.0.1920.1040" timestamp="1582410375994" />
+    <state x="1136" y="356" key="com.intellij.ide.util.TipDialog" timestamp="1582410436847">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1136" y="356" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/1920.32.1680.1010@0.0.1920.1040" timestamp="1582410436847" />
   </component>
 </project>
