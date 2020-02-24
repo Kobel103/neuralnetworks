@@ -14,6 +14,7 @@ limitations under the License.
 ==============================================================================*/
 
 import * as d3 from 'd3';
+import {isNumber} from "util";
 
 /**
  * A two dimensional example: x and y coordinates with the label.
@@ -24,11 +25,17 @@ export type Example2D = {
   label: number
 };
 
+export let generatedData : { [key: string]: string[] } = {};
+let selectedGeneratedData : string = "";
+
 type Point = {
   x: number,
   y: number
 };
 
+export function changeSelectedGeneratedData(selection: string) {
+  selectedGeneratedData = selection;
+}
 /**
  * Shuffles the array using Fisher-Yates algorithm. Uses the seedrandom
  * library as the random generator.
@@ -70,6 +77,36 @@ export function classifyTwoGaussData(numSamples: number, noise: number):
   genGauss(2, 2, 1); // Gaussian with positive examples.
   genGauss(-2, -2, -1); // Gaussian with negative examples.
   return points;
+}
+
+export function classifyGenericData(numSamples: number, noise: number):
+    Example2D[] {
+  let points: Example2D[] = [];
+
+  let data = generatedData[selectedGeneratedData];
+
+  for(let i = 0; i < data.length; i++) {
+    let dataAtIndex = data[i];
+    let dataProperties = dataAtIndex.split(',');
+    try {
+      let x = parseInt(dataProperties[0]);
+      let y = parseInt(dataProperties[1]);
+      let label = parseInt(dataProperties[2]);
+      if(!isFinite(x) || !isFinite(y) || !isFinite(label)) {
+        throw 'le projet';
+      }
+      points.push({x, y, label})
+    }
+    catch (e) {
+      throw 'Le data envoyé doit uniquement contenir des nombres';
+    }
+  }
+
+  return points;
+}
+
+export function regressGenericData(data: string[]) {
+
 }
 
 export function regressPlane(numSamples: number, noise: number):

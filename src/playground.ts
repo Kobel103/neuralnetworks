@@ -26,13 +26,12 @@ import {
   getKeyFromValue,
   Problem
 } from "./state";
-import {Example2D, shuffle} from "./dataset";
+import {classifyGenericData, Example2D, shuffle, generatedData, changeSelectedGeneratedData} from "./dataset";
+
 import {AppendingLineChart} from "./linechart";
 import * as d3 from 'd3';
 
 let mainWidth;
-let f = window.require("fs");
-f.writeFile("dataset.txt", "test", function(){console.log("test")});
 
 // More scrolling
 d3.select(".more button").on("click", function() {
@@ -213,21 +212,50 @@ function makeGUI() {
     document.getElementById("fileid").click();
     document.getElementById("fileid").onchange = function(event) {
       const fileList = (<HTMLInputElement>event.target).files;
-      var fichier = fileList[0];
+      for(let i = 0; i < fileList.length; i++) {
+        var fichier = fileList[i];
+        var title = fichier.name;
+        console.log(fichier.name);
+        var nomFichier = fichier.name;
+        if(!hasValidExtension(nomFichier)) {
+          console.log('Vous devez importer un fichier avec l\'extension .txt ou .csv');
+        }
+        else {
+          var reader = new FileReader();
 
-      var reader = new FileReader();
+          reader.readAsText(fichier);
 
-      reader.readAsText(fichier);
+          reader.onload = function() {
+            var contenuFichier = CSVtoArray(reader.result);
+            console.log(contenuFichier);
+            generatedData[title] = contenuFichier;
+            datasets[title] = classifyGenericData;
 
-      reader.onload = function() {
-        console.log(reader.result);
-      };
+            d3.select('#datasetlist').append('div').attr('class', 'dataset').attr('title', title)
+                .append('canvas').attr('class', 'data-thumbnail').attr('data-dataset', title)
+                .on('click', function() {
+                  changeSelectedGeneratedData(title);
+                  let newDataset = datasets[title];
+                  console.log('un mot méchant dans la console');
+                  if (newDataset === state.dataset) {
+                    return; // No-op.
+                  }
+                  state.dataset =  newDataset;
+                  dataThumbnails.classed("selected", false);
+                  d3.select(this).classed("selected", true);
+                  generateData();
+                  parametersChanged = true;
+                  reset();
+                });
 
-      reader.onerror = function() {
-        console.log(reader.error);
-      };
+            //TODO Générer le dataset
+          };
 
-      f.mkdirSync("./tmp");
+          reader.onerror = function() {
+            console.log(reader.error);
+          };
+        }
+      }
     }
   });
 
@@ -1136,6 +1164,40 @@ function simulationStarted() {
     eventLabel: state.tutorial == null ? '' : state.tutorial
   });
   parametersChanged = false;
+}
+
+//Reference : https://www.quora.com/How-can-I-parse-a-CSV-string-with-Javascript
+function CSVtoArray(text) {
+  var re_valid =  /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
+  var re_value =  /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
+  if (!re_valid.test(text)) return null;
+  var a = [];
+  text.replace(re_value,
+      function(m0, m1, m2, m3) {
+        if      (m1 !== undefined) a.push(m1.replace(/\\'/g, "'"));
+        else if (m2 !== undefined) a.push(m2.replace(/\\"/g, '"'));
+        else if (m3 !== undefined) a.push(m3);
+        return '';
+      });
+  if (/,\s*$/.test(text)) a.push('');
+  return a;
+};
+
+function hasValidExtension(fileName) {
+  const extensionsAutorise = ['txt', 'csv'];
+  const split = fileName.split('.');
+  const extension = split[split.length - 1];
+
+  for (let i = 0; i < extensionsAutorise.length; i++) {
+    var x = extensionsAutorise[i];
+    console.log(x);
+    console.log(extension);
+    console.log(x == extension);
+    if (x.toString() == extension.toString()) {
+      return true;
+    }
+  }
+  return false;
 }
 
 drawDatasetThumbnails();
