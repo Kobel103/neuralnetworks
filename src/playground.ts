@@ -30,6 +30,7 @@ import {classifyGenericData, Example2D, shuffle, generatedData, changeSelectedGe
 
 import {AppendingLineChart} from "./linechart";
 import * as d3 from 'd3';
+import * as jQuery from 'jquery';
 
 let mainWidth;
 
@@ -1160,9 +1161,8 @@ d3.select("#add-data-button").on("click", () => {
     for(let i = 0; i < fileList.length; i++) {
       var fichier = fileList[i];
       var title = fichier.name;
-      var nomFichier = fichier.name;
-      if(!hasValidExtension(nomFichier)) {
-        console.log('Vous devez importer un fichier avec l\'extension .txt ou .csv');
+      if(!hasValidExtension(title)) {
+        alert('Vous devez importer un fichier avec l\'extension .txt ou .csv');
       }
       else {
         var reader = new FileReader();
@@ -1171,38 +1171,15 @@ d3.select("#add-data-button").on("click", () => {
 
         reader.onload = function() {
           var contenuFichier = CSVtoArray(reader.result);
-          console.log(contenuFichier);
-          generatedData[title] = contenuFichier;
-          datasets[title] = classifyGenericData;
-
-          d3.select('#datasetlist').append('div').attr('class', 'dataset').attr('title', title)
-              .append('canvas').attr('class', 'data-thumbnail').attr('data-dataset', title);
-
-          let dataThumbnails = d3.selectAll("canvas[data-dataset]");
-          dataThumbnails.on("click", function() {
-            console.log(title);
-            changeSelectedGeneratedData(title);
-            console.log(this.dataset.dataset);
-            let newDataset = datasets[this.dataset.dataset];
-            console.log(newDataset)
-            if (newDataset === state.dataset) {
-              console.log('oops');
-              return; // No-op.
-            }
-            state.dataset =  newDataset;
-            dataThumbnails.classed("selected", false);
-            d3.select(this).classed("selected", true);
-            generateData(true);
-            parametersChanged = true;
-            reset(true);
-            updateUI();
+          jQuery.ajax({
+            method: 'POST',
+            dataType:'json',
+            url: 'php/upload-dataset.php',
+            data: contenuFichier
+          }).done(function(msg) {
+            alert(msg);
           });
         };
-
-        let datasetKey = getKeyFromValue(datasets, state.dataset);
-        // Select the dataset according to the current state.
-        d3.select(`canvas[data-dataset=${datasetKey}]`)
-            .classed("selected", true);
 
         reader.onerror = function() {
           console.log(reader.error);
