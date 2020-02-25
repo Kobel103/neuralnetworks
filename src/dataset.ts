@@ -89,11 +89,11 @@ export function classifyGenericData(numSamples: number, noise: number):
     let dataAtIndex = data[i];
     let dataProperties = dataAtIndex.split(',');
     try {
-      let x = parseInt(dataProperties[0]);
-      let y = parseInt(dataProperties[1]);
-      let label = parseInt(dataProperties[2]);
+      let x = parseFloat(dataProperties[0]);
+      let y = parseFloat(dataProperties[1]);
+      let label = parseFloat(dataProperties[2]);
       if(!isFinite(x) || !isFinite(y) || !isFinite(label)) {
-        throw 'le projet';
+        throw 'erreur';
       }
       points.push({x, y, label})
     }

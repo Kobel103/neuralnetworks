@@ -208,57 +208,6 @@ function makeGUI() {
     parametersChanged = true;
   });
 
-  d3.select("#add-data-button").on("click", () => {
-    document.getElementById("fileid").click();
-    document.getElementById("fileid").onchange = function(event) {
-      const fileList = (<HTMLInputElement>event.target).files;
-      for(let i = 0; i < fileList.length; i++) {
-        var fichier = fileList[i];
-        var title = fichier.name;
-        console.log(fichier.name);
-        var nomFichier = fichier.name;
-        if(!hasValidExtension(nomFichier)) {
-          console.log('Vous devez importer un fichier avec l\'extension .txt ou .csv');
-        }
-        else {
-          var reader = new FileReader();
-
-          reader.readAsText(fichier);
-
-          reader.onload = function() {
-            var contenuFichier = CSVtoArray(reader.result);
-            console.log(contenuFichier);
-            generatedData[title] = contenuFichier;
-            datasets[title] = classifyGenericData;
-
-            d3.select('#datasetlist').append('div').attr('class', 'dataset').attr('title', title)
-                .append('canvas').attr('class', 'data-thumbnail').attr('data-dataset', title)
-                .on('click', function() {
-                  changeSelectedGeneratedData(title);
-                  let newDataset = datasets[title];
-                  console.log('un mot méchant dans la console');
-                  if (newDataset === state.dataset) {
-                    return; // No-op.
-                  }
-                  state.dataset =  newDataset;
-                  dataThumbnails.classed("selected", false);
-                  d3.select(this).classed("selected", true);
-                  generateData();
-                  parametersChanged = true;
-                  reset();
-                });
-
-            //TODO Générer le dataset
-          };
-
-          reader.onerror = function() {
-            console.log(reader.error);
-          };
-        }
-      }
-    }
-  });
-
   let dataThumbnails = d3.selectAll("canvas[data-dataset]");
   dataThumbnails.on("click", function() {
     let newDataset = datasets[this.dataset.dataset];
@@ -1190,9 +1139,6 @@ function hasValidExtension(fileName) {
 
   for (let i = 0; i < extensionsAutorise.length; i++) {
     var x = extensionsAutorise[i];
-    console.log(x);
-    console.log(extension);
-    console.log(x == extension);
     if (x.toString() == extension.toString()) {
       return true;
     }
@@ -1206,3 +1152,62 @@ makeGUI();
 generateData(true);
 reset(true);
 hideControls();
+
+d3.select("#add-data-button").on("click", () => {
+  document.getElementById("fileid").click();
+  document.getElementById("fileid").onchange = function(event) {
+    const fileList = (<HTMLInputElement>event.target).files;
+    for(let i = 0; i < fileList.length; i++) {
+      var fichier = fileList[i];
+      var title = fichier.name;
+      var nomFichier = fichier.name;
+      if(!hasValidExtension(nomFichier)) {
+        console.log('Vous devez importer un fichier avec l\'extension .txt ou .csv');
+      }
+      else {
+        var reader = new FileReader();
+
+        reader.readAsText(fichier);
+
+        reader.onload = function() {
+          var contenuFichier = CSVtoArray(reader.result);
+          console.log(contenuFichier);
+          generatedData[title] = contenuFichier;
+          datasets[title] = classifyGenericData;
+
+          d3.select('#datasetlist').append('div').attr('class', 'dataset').attr('title', title)
+              .append('canvas').attr('class', 'data-thumbnail').attr('data-dataset', title);
+
+          let dataThumbnails = d3.selectAll("canvas[data-dataset]");
+          dataThumbnails.on("click", function() {
+            console.log(title);
+            changeSelectedGeneratedData(title);
+            console.log(this.dataset.dataset);
+            let newDataset = datasets[this.dataset.dataset];
+            console.log(newDataset)
+            if (newDataset === state.dataset) {
+              console.log('oops');
+              return; // No-op.
+            }
+            state.dataset =  newDataset;
+            dataThumbnails.classed("selected", false);
+            d3.select(this).classed("selected", true);
+            generateData(true);
+            parametersChanged = true;
+            reset(true);
+            updateUI();
+          });
+        };
+
+        let datasetKey = getKeyFromValue(datasets, state.dataset);
+        // Select the dataset according to the current state.
+        d3.select(`canvas[data-dataset=${datasetKey}]`)
+            .classed("selected", true);
+
+        reader.onerror = function() {
+          console.log(reader.error);
+        };
+      }
+    }
+  }
+});
