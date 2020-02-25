@@ -1175,9 +1175,10 @@ d3.select("#add-data-button").on("click", () => {
             method: 'POST',
             dataType:'json',
             url: 'php/upload-dataset.php',
-            data: contenuFichier
+            data: {data: contenuFichier}
           }).done(function(msg) {
-            alert(msg);
+            console.log(msg);
+            alert('Pour voir le dataset que vous venez d\'ajouter, vous devez rafraîchir la page');
           });
         };
 
