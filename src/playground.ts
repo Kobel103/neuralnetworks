@@ -1159,23 +1159,22 @@ d3.select("#add-data-button").on("click", () => {
   document.getElementById("fileid").onchange = function(event) {
     const fileList = (<HTMLInputElement>event.target).files;
     for(let i = 0; i < fileList.length; i++) {
-      var fichier = fileList[i];
-      var title = fichier.name;
-      if(!hasValidExtension(title)) {
+      var file = fileList[i];
+      var name = file.name;
+      if(!hasValidExtension(name)) {
         alert('Vous devez importer un fichier avec l\'extension .txt ou .csv');
       }
       else {
         var reader = new FileReader();
-
-        reader.readAsText(fichier);
-
+        reader.readAsText(file);
         reader.onload = function() {
-          var contenuFichier = CSVtoArray(reader.result);
+          var content = CSVtoArray(reader.result);
+          console.log(content);
           jQuery.ajax({
             method: 'POST',
             dataType:'json',
             url: 'php/upload-dataset.php',
-            data: {data: contenuFichier}
+            data: {file_name: name, content: content}
           }).done(function(msg) {
             console.log(msg);
             alert('Pour voir le dataset que vous venez d\'ajouter, vous devez rafraîchir la page');
