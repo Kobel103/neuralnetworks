@@ -31,6 +31,7 @@ import {classifyGenericData, Example2D, shuffle, generatedData, changeSelectedGe
 import {AppendingLineChart} from "./linechart";
 import * as d3 from 'd3';
 import * as jQuery from 'jquery';
+import {json} from "d3";
 
 let mainWidth;
 
@@ -143,6 +144,16 @@ class Player {
     }, 0);
   }
 }
+
+jQuery.ajax({
+  method: 'GET',
+  dataType:'json',
+  url: 'php/read-datasets.php'
+}).done(function(returnData) {
+  console.log(returnData);
+}).fail(function(req, err) {
+  console.log('wtf : ' + err);
+});
 
 let state = State.deserializeState();
 
