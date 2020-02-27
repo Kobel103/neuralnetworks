@@ -164,7 +164,7 @@ getDatasets().then(response => response.forEach(x => {
         return; // No-op.
       }
       state.dataset =  newDataset;
-      d3.select('canvas[data-dataset]').classed("selected", false);
+      d3.select("#datasetlist").selectAll('canvas').classed("selected", false);
       d3.select(this).classed("selected", true);
       generateData();
       parametersChanged = true;
@@ -237,7 +237,7 @@ function makeGUI() {
     parametersChanged = true;
   });
 
-  let dataThumbnails = d3.selectAll("canvas[data-dataset]");
+  let dataThumbnails = d3.select("#datasetlist").selectAll('canvas');
   dataThumbnails.on("click", function() {
     changeSelectedGeneratedData(this);
     let newDataset = datasets[this.dataset.dataset];
@@ -1147,7 +1147,6 @@ function simulationStarted() {
 
 //Reference : https://www.quora.com/How-can-I-parse-a-CSV-string-with-Javascript
 function CSVtoArray(text) {
-  console.log(text);
   var re_valid =  /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
   var re_value =  /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
   if (!re_valid.test(text)) return null;
