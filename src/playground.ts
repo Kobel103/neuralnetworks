@@ -145,15 +145,32 @@ class Player {
   }
 }
 
-jQuery.ajax({
-  method: 'GET',
-  dataType:'json',
-  url: 'php/read-datasets.php'
-}).done(function(returnData) {
-  console.log(returnData);
-}).fail(function(req, err) {
-  console.log('wtf : ' + err);
-});
+getDatasets().then(response => response.forEach(x => {
+  let fileName = x[0];
+  let data = x[1].toString().slice(1,-1);
+  let dataArray = CSVtoArray(data);
+  generatedData[fileName] = dataArray;
+  datasets[fileName] = classifyGenericData;
+  let createdDatasetUI = d3.select('#datasetlist').append('div').attr({
+    class: 'dataset',
+    title: fileName
+  }).append('canvas')
+      .attr('class', 'data-thumbnail')
+      .attr('data-dataset', fileName);
+  createdDatasetUI.on('click', function () {
+      changeSelectedGeneratedData(fileName);
+      let newDataset = datasets[fileName];
+      if (newDataset === state.dataset) {
+        return; // No-op.
+      }
+      state.dataset =  newDataset;
+      d3.select('canvas[data-dataset]').classed("selected", false);
+      d3.select(this).classed("selected", true);
+      generateData();
+      parametersChanged = true;
+      reset();
+  })
+}));
 
 let state = State.deserializeState();
 
@@ -222,6 +239,7 @@ function makeGUI() {
 
   let dataThumbnails = d3.selectAll("canvas[data-dataset]");
   dataThumbnails.on("click", function() {
+    changeSelectedGeneratedData(this);
     let newDataset = datasets[this.dataset.dataset];
     if (newDataset === state.dataset) {
       return; // No-op.
@@ -1129,6 +1147,7 @@ function simulationStarted() {
 
 //Reference : https://www.quora.com/How-can-I-parse-a-CSV-string-with-Javascript
 function CSVtoArray(text) {
+  console.log(text);
   var re_valid =  /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
   var re_value =  /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
   if (!re_valid.test(text)) return null;
@@ -1180,22 +1199,27 @@ d3.select("#add-data-button").on("click", () => {
         reader.readAsText(file);
         reader.onload = function() {
           var content = CSVtoArray(reader.result);
-          console.log(content);
           jQuery.ajax({
             method: 'POST',
             dataType:'json',
             url: 'php/upload-dataset.php',
             data: {file_name: name, content: content}
           }).done(function(msg) {
-            console.log(msg);
             alert('Pour voir le dataset que vous venez d\'ajouter, vous devez rafraîchir la page');
           });
         };
-
         reader.onerror = function() {
-          console.log(reader.error);
+          alert(reader.error);
         };
       }
     }
   }
 });
+
+function getDatasets() {
+  return jQuery.ajax({
+    method: 'GET',
+    dataType:'json',
+    url: 'php/read-datasets.php',
+  });
+}

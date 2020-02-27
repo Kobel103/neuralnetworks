@@ -84,9 +84,10 @@ export function classifyGenericData(numSamples: number, noise: number):
   let points: Example2D[] = [];
 
   let data = generatedData[selectedGeneratedData];
-
+  console.log(data);
   for(let i = 0; i < data.length; i++) {
     let dataAtIndex = data[i];
+    console.log(dataAtIndex);
     let dataProperties = dataAtIndex.split(',');
     try {
       let x = parseFloat(dataProperties[0]);
