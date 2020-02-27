@@ -31,7 +31,6 @@ import {classifyGenericData, Example2D, shuffle, generatedData, changeSelectedGe
 import {AppendingLineChart} from "./linechart";
 import * as d3 from 'd3';
 import * as jQuery from 'jquery';
-import {json} from "d3";
 
 let mainWidth;
 
@@ -244,7 +243,7 @@ function makeGUI() {
     if (newDataset === state.dataset) {
       return; // No-op.
     }
-    state.dataset =  newDataset;
+    state.dataset = newDataset;
     dataThumbnails.classed("selected", false);
     d3.select(this).classed("selected", true);
     generateData();

@@ -105,10 +105,6 @@ export function classifyGenericData(numSamples: number, noise: number):
   return points;
 }
 
-export function regressGenericData(data: string[]) {
-
-}
-
 export function regressPlane(numSamples: number, noise: number):
   Example2D[] {
   let radius = 6;
