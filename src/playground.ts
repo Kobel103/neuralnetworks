@@ -34,6 +34,36 @@ import * as jQuery from 'jquery';
 
 let mainWidth;
 
+let remoteDatasets = JSON.parse(String(getDatasets()));
+
+remoteDatasets.forEach(x => {
+  let fileName = x[0].replace(".", "");
+  let data = x[1].toString().slice(1,-1);
+  let dataArray = CSVtoArray(data);
+  generatedData[fileName] = dataArray;
+  datasets[fileName] = classifyGenericData;
+  let createdUI = d3.select("#datasetlist").append('div').attr({
+    class: 'dataset',
+    title: fileName
+  }).append('canvas').attr({
+    'class': 'data-thumbnail',
+    'data-dataset': fileName
+  });
+  createdUI.on('click', function () {
+    changeSelectedGeneratedData(fileName);
+    let newDataset = datasets[fileName];
+    if (newDataset == state.dataset) {
+      return;
+    }
+    state.dataset = newDataset;
+    d3.select("#datasetlist").selectAll('canvas').classed("selected", false);
+    d3.select(this).classed("selected", true);
+    generateData();
+    parametersChanged = true;
+    reset();
+  })
+});
+
 // More scrolling
 d3.select(".more button").on("click", function() {
   let position = 800;
@@ -208,35 +238,6 @@ function makeGUI() {
     generateData();
     parametersChanged = true;
   });
-
-  getDatasets().then(response => response.forEach(x => {
-    let fileName = x[0].replace(".", "");
-    console.log(fileName);
-    console.log(typeof(fileName));
-    let data = x[1].toString().slice(1,-1);
-    let dataArray = CSVtoArray(data);
-    generatedData[fileName] = dataArray;
-    datasets[fileName] = classifyGenericData;
-    let createdDatasetUI = d3.select('#datasetlist').append('div').attr({
-      class: 'dataset',
-      title: fileName
-    }).append('canvas')
-        .attr('class', 'data-thumbnail')
-        .attr('data-dataset', fileName);
-    createdDatasetUI.on('click', function () {
-        changeSelectedGeneratedData(fileName);
-        let newDataset = datasets[fileName];
-        if (newDataset === state.dataset) {
-          return; // No-op.
-        }
-        state.dataset = newDataset;
-        d3.select("#datasetlist").selectAll('canvas').classed("selected", false);
-        d3.select(this).classed("selected", true);
-        generateData();
-        parametersChanged = true;
-        reset();
-    })
-  }));
 
   let dataThumbnails = d3.select("#datasetlist").selectAll('canvas');
   dataThumbnails.on("click", function() {
@@ -1040,7 +1041,6 @@ function drawDatasetThumbnails() {
   d3.selectAll(".dataset").style("display", "none");
 
   if (state.problem === Problem.CLASSIFICATION) {
-    console.log(datasets);
     for (let dataset in datasets) {
       let canvas: any =
           document.querySelector(`canvas[data-dataset=${dataset}]`);
@@ -1206,7 +1206,7 @@ d3.select("#add-data-button").on("click", () => {
             url: 'php/upload-dataset.php',
             data: {file_name: name, content: content}
           }).done(function(msg) {
-            alert('Pour voir le dataset que vous venez d\'ajouter, vous devez rafraîchir la page');
+            location.reload();
           });
         };
         reader.onerror = function() {
@@ -1217,10 +1217,16 @@ d3.select("#add-data-button").on("click", () => {
   }
 });
 
-async function getDatasets() {
-  return await jQuery.ajax({
+function getDatasets() {
+  let result = jQuery.ajax({
     method: 'GET',
     dataType:'json',
     url: 'php/read-datasets.php',
-  });
+    success: function () {},
+    async: false,
+    error: function (err) {
+      console.log(err);
+    },
+  }).responseText;
+  return result;
 }
