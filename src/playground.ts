@@ -144,33 +144,6 @@ class Player {
   }
 }
 
-getDatasets().then(response => response.forEach(x => {
-  let fileName = x[0];
-  let data = x[1].toString().slice(1,-1);
-  let dataArray = CSVtoArray(data);
-  generatedData[fileName] = dataArray;
-  datasets[fileName] = classifyGenericData;
-  let createdDatasetUI = d3.select('#datasetlist').append('div').attr({
-    class: 'dataset',
-    title: fileName
-  }).append('canvas')
-      .attr('class', 'data-thumbnail')
-      .attr('data-dataset', fileName);
-  createdDatasetUI.on('click', function () {
-      changeSelectedGeneratedData(fileName);
-      let newDataset = datasets[fileName];
-      if (newDataset === state.dataset) {
-        return; // No-op.
-      }
-      state.dataset =  newDataset;
-      d3.select("#datasetlist").selectAll('canvas').classed("selected", false);
-      d3.select(this).classed("selected", true);
-      generateData();
-      parametersChanged = true;
-      reset();
-  })
-}));
-
 let state = State.deserializeState();
 
 // Filter out inputs that are hidden.
@@ -235,6 +208,35 @@ function makeGUI() {
     generateData();
     parametersChanged = true;
   });
+
+  getDatasets().then(response => response.forEach(x => {
+    let fileName = x[0].replace(".", "");
+    console.log(fileName);
+    console.log(typeof(fileName));
+    let data = x[1].toString().slice(1,-1);
+    let dataArray = CSVtoArray(data);
+    generatedData[fileName] = dataArray;
+    datasets[fileName] = classifyGenericData;
+    let createdDatasetUI = d3.select('#datasetlist').append('div').attr({
+      class: 'dataset',
+      title: fileName
+    }).append('canvas')
+        .attr('class', 'data-thumbnail')
+        .attr('data-dataset', fileName);
+    createdDatasetUI.on('click', function () {
+        changeSelectedGeneratedData(fileName);
+        let newDataset = datasets[fileName];
+        if (newDataset === state.dataset) {
+          return; // No-op.
+        }
+        state.dataset = newDataset;
+        d3.select("#datasetlist").selectAll('canvas').classed("selected", false);
+        d3.select(this).classed("selected", true);
+        generateData();
+        parametersChanged = true;
+        reset();
+    })
+  }));
 
   let dataThumbnails = d3.select("#datasetlist").selectAll('canvas');
   dataThumbnails.on("click", function() {
@@ -1038,6 +1040,7 @@ function drawDatasetThumbnails() {
   d3.selectAll(".dataset").style("display", "none");
 
   if (state.problem === Problem.CLASSIFICATION) {
+    console.log(datasets);
     for (let dataset in datasets) {
       let canvas: any =
           document.querySelector(`canvas[data-dataset=${dataset}]`);
@@ -1214,8 +1217,8 @@ d3.select("#add-data-button").on("click", () => {
   }
 });
 
-function getDatasets() {
-  return jQuery.ajax({
+async function getDatasets() {
+  return await jQuery.ajax({
     method: 'GET',
     dataType:'json',
     url: 'php/read-datasets.php',
