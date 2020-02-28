@@ -38,6 +38,7 @@ let remoteDatasets = JSON.parse(String(getDatasets()));
 
 remoteDatasets.forEach(x => {
   let fileName = x[0].replace(".", "");
+  changeSelectedGeneratedData(fileName);
   let data = x[1].toString().slice(1,-1);
   let dataArray = CSVtoArray(data);
   generatedData[fileName] = dataArray;
@@ -51,7 +52,10 @@ remoteDatasets.forEach(x => {
   });
   createdUI.on('click', function () {
     changeSelectedGeneratedData(fileName);
+    console.log("fileName", fileName);
+    console.log("datasets", datasets);
     let newDataset = datasets[fileName];
+    console.log("new Dataset", newDataset);
     if (newDataset == state.dataset) {
       return;
     }
@@ -241,7 +245,7 @@ function makeGUI() {
 
   let dataThumbnails = d3.select("#datasetlist").selectAll('canvas');
   dataThumbnails.on("click", function() {
-    changeSelectedGeneratedData(this);
+    changeSelectedGeneratedData(this.dataset.dataset);
     let newDataset = datasets[this.dataset.dataset];
     if (newDataset === state.dataset) {
       return; // No-op.
@@ -261,6 +265,7 @@ function makeGUI() {
 
   let regDataThumbnails = d3.selectAll("canvas[data-regDataset]");
   regDataThumbnails.on("click", function() {
+    changeSelectedGeneratedData(this);
     let newDataset = regDatasets[this.dataset.regdataset];
     if (newDataset === state.regDataset) {
       return; // No-op.
@@ -1149,6 +1154,13 @@ function simulationStarted() {
 
 //Reference : https://www.quora.com/How-can-I-parse-a-CSV-string-with-Javascript
 function CSVtoArray(text) {
+  if (text[text.length - 1] != "\"") {
+    text = text + "\"";
+  }
+  if (text[0] != "\"") {
+    text = "\"" + text;
+  }
+  console.log(text);
   var re_valid =  /^\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*(?:,\s*(?:'[^'\\]*(?:\\[\S\s][^'\\]*)*'|"[^"\\]*(?:\\[\S\s][^"\\]*)*"|[^,'"\s\\]*(?:\s+[^,'"\s\\]+)*)\s*)*$/;
   var re_value =  /(?!\s*$)\s*(?:'([^'\\]*(?:\\[\S\s][^'\\]*)*)'|"([^"\\]*(?:\\[\S\s][^"\\]*)*)"|([^,'"\s\\]*(?:\s+[^,'"\s\\]+)*))\s*(?:,|$)/g;
   if (!re_valid.test(text)) return null;
